@@ -50,7 +50,7 @@ The module must be available in the `$ESN/modules` folder:
 
 ```
 cd $ESN
-ln -s path_to_github_module modules/linagora.esn.unifiedinbox.twitter
+ln -s path_to_twitter_module modules/linagora.esn.unifiedinbox.twitter
 ```
 
 ## Enable

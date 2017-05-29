@@ -1,0 +1,29 @@
+.inbox-root {
+  .inbox-twitter-list-item {
+    .inbox-twitter-screenname {
+      &.inbox-twitter-screenname-inline {
+        display: none;
+
+        a {
+          margin: 0 3px;
+        }
+      }
+
+      a:not(:hover) {
+        color: @lighterSecondaryTextColor;
+      }
+    }
+  }
+}
+
+@media (min-width: @screen-xl-min) {
+  .inbox-root {
+    .inbox-twitter-list-item {
+      .inbox-twitter-screenname {
+        &.inbox-twitter-screenname-inline {
+          display: inline;
+        }
+      }
+    }
+  }
+}

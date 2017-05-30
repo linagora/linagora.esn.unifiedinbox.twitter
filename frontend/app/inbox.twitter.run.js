@@ -5,7 +5,6 @@
     .run(function($q, inboxConfig, inboxProviders, inboxTwitterDirectMessagesProvider, inboxTwitterMentionsProvider, session, INBOX_TWITTER_CONFIG_TWEETS, INBOX_TWITTER_TYPE) {
 
       inboxConfig(INBOX_TWITTER_CONFIG_TWEETS).then(function(twitterTweetsEnabled) {
-        
         if (twitterTweetsEnabled) {
           session.getProviderAccounts(INBOX_TWITTER_TYPE).forEach(function(account) {
             inboxProviders.add(inboxTwitterMentionsProvider(account.id));

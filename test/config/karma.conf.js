@@ -21,13 +21,13 @@ module.exports = function(config) {
       'frontend/components/angular-moment/angular-moment.js',
       'frontend/components/angular-sanitize/angular-sanitize.min.js',
       'test/config/module.js',
-      'frontend/app/inbox.github.app.js',
+      'frontend/app/inbox.twitter.app.js',
       'frontend/app/**/*.js',
       'frontend/app/**/*.jade'
     ],
     exclude: [
-      'frontend/app/inbox.github.run.js',
-      'frontend/app/inbox.github.router.js'
+      'frontend/app/inbox.twitter.run.js',
+      'frontend/app/inbox.twitter.router.js'
     ],
     frameworks: ['mocha'],
     colors: true,
@@ -55,11 +55,11 @@ module.exports = function(config) {
     ngJade2ModulePreprocessor: {
       stripPrefix: 'frontend',
       cacheIdFromPath: function(filepath) {
-        var cacheId = filepath.replace(/jade$/, 'html').replace(/^frontend/, '/unifiedinbox.github');
+        var cacheId = filepath.replace(/jade$/, 'html').replace(/^frontend/, '/unifiedinbox.twitter');
 
         return cacheId;
       },
-      prependPrefix: '/linagora.esn.unifiedinbox.github',
+      prependPrefix: '/linagora.esn.unifiedinbox.twitter',
       // setting this option will create only a single module that contains templates
       // from all the files, so you can load them all with module('templates')
       jadeRenderOptions: {

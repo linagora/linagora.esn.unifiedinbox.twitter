@@ -1,0 +1,7 @@
+.lv-item.clickable.inbox-item-with-icon.folder-with-icon.folder-with-icon(ui-sref="unifiedinbox.inbox({ type: 'twitter', account: $ctrl.account.id, context: '' })", ui-sref-active="selected", title="{{ ::$ctrl.account.username }}")
+  .badge-container
+    i.inbox-icon.mdi.mdi-twitter
+    span.menu-item-inner
+  .menu-item
+      bdi @{{ ::$ctrl.account.username }}
+    span.menu-item-after

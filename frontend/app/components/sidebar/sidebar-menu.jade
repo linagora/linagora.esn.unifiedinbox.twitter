@@ -1,0 +1,4 @@
+.listview
+  .lv-body
+    div(ng-if="$ctrl.accounts.length > 0")
+      inbox-twitter-sidebar-menu-item.lv-item(account="account", ng-repeat="account in $ctrl.accounts")

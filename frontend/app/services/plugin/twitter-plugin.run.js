@@ -3,7 +3,7 @@
 
   angular.module('linagora.esn.unifiedinbox')
 
-    .run(function($q, inboxPlugins, _, INBOX_TWITTER_TYPE, session) {
+    .run(function($q, inboxFilters, inboxPlugins, _, INBOX_TWITTER_TYPE, session) {
       inboxPlugins.add({
         type: INBOX_TWITTER_TYPE,
         contextSupportsAttachments: _.constant($q.when(false)),
@@ -12,6 +12,19 @@
         },
         getEmptyContextTemplateUrl: _.constant($q.when('/unifiedinbox.twitter/app/services/plugin/twitter-plugin-empty-message.html'))
       });
+         inboxFilters.add([{
+          id: 'inboxTwitterMentions',
+          displayName: 'Mentions',
+          type: INBOX_TWITTER_TYPE,
+          selectionById: true
+        },
+        {
+          id: 'inboxTwitterDirectMessages',
+          displayName: 'Direct Messages',
+          type: INBOX_TWITTER_TYPE,
+          selectionById: true
+        }
+      ]);
     });
 
 })();

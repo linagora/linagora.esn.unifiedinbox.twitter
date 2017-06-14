@@ -15,6 +15,7 @@ test:
     - redis
   script:
    - npm i
+   - bower i
    - grunt
 
 deploy_dev:

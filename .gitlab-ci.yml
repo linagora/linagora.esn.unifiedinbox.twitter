@@ -16,6 +16,7 @@ test:
   script:
    - npm i
    - bower i
+   - ln -s ${PWD}/node_modules/linagora.esn.unifiedinbox node_modules/linagora-rse/node_modules/
    - grunt
 
 deploy_dev:

@@ -23,7 +23,7 @@ module.exports = function(config) {
       'test/config/module.js',
       'frontend/app/inbox.twitter.app.js',
       'frontend/app/**/*.js',
-      'frontend/app/**/*.jade'
+      'frontend/app/**/*.pug'
     ],
     exclude: [
       'frontend/app/inbox.twitter.run.js',
@@ -37,7 +37,7 @@ module.exports = function(config) {
     reporters: ['coverage', 'spec'],
     preprocessors: {
       'frontend/js/**/*.js': ['coverage'],
-      '**/*.jade': ['ng-jade2module']
+      '**/*.pug': ['ng-jade2module']
     },
 
     plugins: [
@@ -55,7 +55,7 @@ module.exports = function(config) {
     ngJade2ModulePreprocessor: {
       stripPrefix: 'frontend',
       cacheIdFromPath: function(filepath) {
-        var cacheId = filepath.replace(/jade$/, 'html').replace(/^frontend/, '/unifiedinbox.twitter');
+        var cacheId = filepath.replace(/pug$/, 'html').replace(/^frontend/, '/unifiedinbox.twitter');
 
         return cacheId;
       },

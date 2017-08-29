@@ -31,10 +31,11 @@ function _formatTwitterUser(object) {
 
 function _formatTweets(tweets) {
   return tweets.map(tweet => ({
-    id: tweet.id,
+    id: tweet.id_str,
     author: _formatTwitterUser(tweet.user || tweet.sender),
     rcpt: _formatTwitterUser(tweet.recipient),
     date: new Date(tweet.created_at),
-    text: tweet.text
+    text: tweet.text,
+    type: tweet.sender ? 'directMessage' : 'tweet'
   }));
 }

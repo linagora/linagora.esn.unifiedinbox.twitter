@@ -30,6 +30,7 @@ const twitterModule = new AwesomeModule(MODULE_NAME, {
       const app = require('./backend/webserver/application')(dependencies);
       const lessFile = path.resolve(__dirname, './frontend/app/inbox.twitter.less');
       const configRegistry = dependencies('esn-config').registry;
+      const jsFile = './components/ngtweet/dist/ngtweet.min.js';
 
       let frontendModules = glob.sync([
         FRONTEND_JS_PATH + '**/!(*spec).js'
@@ -38,6 +39,7 @@ const twitterModule = new AwesomeModule(MODULE_NAME, {
       _.pull(frontendModules, APP_ENTRY_POINT);
       frontendModules = [APP_ENTRY_POINT].concat(frontendModules);
 
+      webserverWrapper.injectJS(NAME, jsFile, ['esn']);
       webserverWrapper.injectAngularAppModules(NAME, frontendModules, MODULE_NAME, ['esn']);
       webserverWrapper.injectLess(NAME, [lessFile], 'esn');
       webserverWrapper.addApp(NAME, app);

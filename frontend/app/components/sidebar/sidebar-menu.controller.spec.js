@@ -10,7 +10,8 @@ describe('The inboxTwitterSidebarMenuController controller', function() {
 
   beforeEach(function() {
     session = {
-      getProviderAccounts: sinon.spy()
+      getProviderAccounts: sinon.spy(),
+      ready: { then: function() {}}
     };
 
     enabled = true;

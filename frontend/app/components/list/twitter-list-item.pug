@@ -1,4 +1,17 @@
-a.inbox-twitter-list-item(ng-if="$ctrl.item.type = 'tweet'", ui-sref="unifiedinbox.tweetview({tweetId: $ctrl.item.id, type: 'twitter', account: $ctrl.account, context: ''})")
-  inbox-list-item-content(item="$ctrl.item")
-a.inbox-twitter-list-item(ng-if="$ctrl.item.type != 'tweet'")
-  inbox-list-item-content(item="$ctrl.item")
+.inbox-twitter-list-item
+  .inbox-list-item-content
+    .inbox-item-with-icon
+      .list-image.badge-container
+        .inbox-image-with-overlay
+          img(ng-src='{{ $ctrl.item.author.avatar }}', alt=__("Author Avatar"))
+          img.inbox-overlay(src="/unifiedinbox.twitter/images/Twitter_Logo_White_On_Blue.png")
+      .media-body
+        .inbox-list-item-subject-and-from
+          .inbox-subject.lv-title
+            .inbox-twitter-screenname.lv-title.hidden-xl(ng-bind-html="$ctrl.item.author.screenName | autolink")
+            .inbox-preview-inline.lv-small.preview(ng-bind-html="$ctrl.item.text | autolink")
+          .inbox-from.lv-title {{ $ctrl.item.author.displayName }}
+            span.inbox-twitter-screenname.inbox-twitter-screenname-inline(ng-bind-html="$ctrl.item.author.screenName | autolink")
+        .inbox-list-item-date-and-indicators
+          .date-container {{ $ctrl.item.date | inboxItemDate }}
+    .inbox-preview-block.preview(ng-bind-html="$ctrl.item.text | autolink")

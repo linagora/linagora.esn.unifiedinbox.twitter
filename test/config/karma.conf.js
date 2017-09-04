@@ -12,7 +12,6 @@ module.exports = function(config) {
       'frontend/components/angular-ui-router/release/angular-ui-router.min.js',
       'frontend/components/angular-mocks/angular-mocks.js',
       'test/mocks/ng-mock-component.js',
-      'node_modules/linagora-rse/frontend/components/restangular/dist/restangular.js',
       'frontend/components/angular-component/dist/angular-component.min.js',
       'frontend/components/dynamic-directive/dist/dynamic-directive.min.js',
       'frontend/components/sinon-chai/lib/sinon-chai.js',
@@ -21,22 +20,14 @@ module.exports = function(config) {
       'frontend/components/lodash/dist/lodash.js',
       'frontend/components/angular-moment/angular-moment.js',
       'frontend/components/angular-sanitize/angular-sanitize.min.js',
-      'frontend/components/ngtweet/dist/ngtweet.min.js',
       'test/config/module.js',
       'frontend/app/inbox.twitter.app.js',
-      'frontend/components/angular-feature-flags/dist/featureFlags.js',
-      'node_modules/linagora-rse/test/fixtures/code-generation/constants.js',
-      'node_modules/linagora-rse/frontend/js/modules/**/*.module.js',
-      'node_modules/linagora-rse/frontend/js/modules/**/*.js',
-      'node_modules/linagora-rse/frontend/views/modules/**/*.pug',
       'frontend/app/**/*.js',
-      'frontend/app/**/*.pug',
-      'test/mocks/modules.js'
+      'frontend/app/**/*.pug'
     ],
     exclude: [
       'frontend/app/inbox.twitter.run.js',
-      'frontend/app/inbox.twitter.router.js',
-      'node_modules/linagora-rse/frontend/js/**/*.spec.js'
+      'frontend/app/inbox.twitter.router.js'
     ],
     frameworks: ['mocha'],
     colors: true,
@@ -64,7 +55,7 @@ module.exports = function(config) {
     ngJade2ModulePreprocessor: {
       stripPrefix: 'frontend',
       cacheIdFromPath: function(filepath) {
-        var cacheId = filepath.replace(/pug$/, 'html').replace(/^frontend/, '/unifiedinbox.twitter').replace(/^node_modules\/linagora-rse\/frontend/, '');
+        var cacheId = filepath.replace(/pug$/, 'html').replace(/^frontend/, '/unifiedinbox.twitter');
 
         return cacheId;
       },

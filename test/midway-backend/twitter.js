@@ -116,18 +116,12 @@ describe('The Twitter API', function() {
       twit.get = (value, options, callback) => {
         callback(null, [[{
           created_at: 'Mon Aug 20 17:21:03 +0000 2012',
-          id_str: '420136858829479936',
-          sender: {
+          id: 420136858829479936,
+          user: {
             id: 4242,
             name: 'Captain Crochet',
             profile_image_url_https: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
             screen_name: 'CallMeCaptain'
-          },
-          recipient: {
-            id: 38895958,
-            name: 'Sean Cook',
-            profile_image_url_https: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
-            screen_name: 'theSeanCook'
           },
           text: 'Hey @me'
         }]]);
@@ -146,16 +140,9 @@ describe('The Twitter API', function() {
                 id: 4242,
                 screenName: '@CallMeCaptain'
               },
-              rcpt: {
-                avatar: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
-                displayName: 'Sean Cook',
-                id: 38895958,
-                screenName: '@theSeanCook'
-              },
               date: '2012-08-20T17:21:03.000Z',
-              id: '420136858829479936',
-              text: 'Hey @me',
-              type: 'directMessage'
+              id: 420136858829479940,
+              text: 'Hey @me'
             }]);
 
             done();
@@ -246,14 +233,14 @@ describe('The Twitter API', function() {
       twit.get = (value, options, callback) => {
         callback(null, [[{
           created_at: 'Mon Aug 27 17:21:03 +0000 2012',
-          id_str: '240136858829479936',
+          id: 240136858829479936,
           recipient: {
             id: 776627022,
             name: 'Mick Jagger',
             profile_image_url_https: 'https://si0.twimg.com/profile_images/2550226257/y0ef5abcx5yrba8du0sk_normal.jpeg',
             screen_name: 's0c1alm3dia'
           },
-          user: {
+          sender: {
             id: 38895958,
             name: 'Sean Cook',
             profile_image_url_https: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
@@ -277,15 +264,14 @@ describe('The Twitter API', function() {
                 screenName: '@theSeanCook'
               },
               date: '2012-08-27T17:21:03.000Z',
-              id: '240136858829479936',
+              id: 240136858829479940,
               rcpt: {
                 avatar: 'https://si0.twimg.com/profile_images/2550226257/y0ef5abcx5yrba8du0sk_normal.jpeg',
                 displayName: 'Mick Jagger',
                 id: 776627022,
                 screenName: '@s0c1alm3dia'
               },
-              text: 'booyakasha',
-              type: 'tweet'
+              text: 'booyakasha'
             }]);
 
             done();

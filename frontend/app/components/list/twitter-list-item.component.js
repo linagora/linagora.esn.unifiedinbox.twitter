@@ -2,10 +2,9 @@
   'use strict';
 
   angular.module('linagora.esn.unifiedinbox.twitter')
-    .component('inboxTwitterListItem', {
+    .component('inboxTweetListItem', {
       bindings: {
-        item: '<',
-        account: '<'
+        item: '<'
       },
       templateUrl: '/unifiedinbox.twitter/app/components/list/twitter-list-item.html'
   });

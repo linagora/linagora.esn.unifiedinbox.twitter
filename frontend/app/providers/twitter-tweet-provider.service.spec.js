@@ -25,9 +25,7 @@ describe('The inboxNewTwitterProvider factory', function() {
 
   beforeEach(function() {
     module('linagora.esn.unifiedinbox.twitter', function($provide) {
-      $provide.value('session', {ready: { then: function() {
-
-      }}});
+      $provide.value('session', {});
       $provide.value('newProvider', _.identity);
       $provide.constant('ELEMENTS_PER_REQUEST', 200);
       $provide.constant('PROVIDER_TYPES', {});
@@ -38,7 +36,6 @@ describe('The inboxNewTwitterProvider factory', function() {
     $rootScope = _$rootScope_;
     inboxNewTwitterProvider = _inboxNewTwitterProvider_;
     $httpBackend = _$httpBackend_;
-
   }));
 
   it('should paginate requests to the backend', function(done) {

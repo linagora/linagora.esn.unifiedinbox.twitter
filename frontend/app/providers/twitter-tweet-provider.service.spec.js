@@ -114,21 +114,21 @@ describe('The inboxNewTwitterProvider factory', function() {
   it('should resolve when no provider ID is selected', function(done) {
     var provider = inboxNewTwitterProvider('id', 'myTwitterAccount', '/unifiedinbox.twitter/twitter/tweets');
 
-    provider.itemMatches({}, {}).then(done);
+    provider.options.itemMatches({}, {}).then(done);
     $rootScope.$digest();
   });
 
   it('should resolve when provider ID matches selected provider ID', function(done) {
     var provider = inboxNewTwitterProvider('id', 'myTwitterAccount', '/unifiedinbox.twitter/twitter/tweets');
 
-    provider.itemMatches({}, { acceptedIds: ['id'] }).then(done);
+    provider.options.itemMatches({}, { acceptedIds: ['id'] }).then(done);
     $rootScope.$digest();
   });
 
   it('should reject when provider ID does not match selected provider ID', function(done) {
     var provider = inboxNewTwitterProvider('id', 'myTwitterAccount', '/unifiedinbox.twitter/twitter/tweets');
 
-    provider.itemMatches({}, { acceptedIds: ['another_id'] }).catch(done);
+    provider.options.itemMatches({}, { acceptedIds: ['another_id'] }).catch(done);
     $rootScope.$digest();
   });
 

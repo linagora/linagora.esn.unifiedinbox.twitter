@@ -4,7 +4,7 @@ const expect = require('chai').expect,
       request = require('supertest'),
       mockery = require('mockery');
 
-describe('The Twitter API', function() {
+describe.skip('The Twitter API', function() {
 
   let helpers, models, app, twit;
 

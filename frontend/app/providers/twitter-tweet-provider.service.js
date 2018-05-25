@@ -41,14 +41,16 @@
             return options && options.quickFilter ? $q.reject('Twitter does not support server-side filtering') : $q.when();
           },
           templateUrl: '/unifiedinbox.twitter/app/providers/twitter-tweet-provider',
-          itemMatches: function(item, filters) {
-            return $q(function(resolve, reject) {
-              if (!filters.acceptedIds) {
-                return resolve();
-              }
+          options: {
+            itemMatches: function(item, filters) {
+              return $q(function(resolve, reject) {
+                if (!filters.acceptedIds) {
+                  return resolve();
+                }
 
-              _.contains(filters.acceptedIds, id) ? resolve() : reject();
-            });
+                _.contains(filters.acceptedIds, id) ? resolve() : reject();
+              });
+            }
           }
         });
       };

@@ -1,4 +1,4 @@
-a.inbox-twitter-list-item(ng-if="$ctrl.item.type = 'tweet'", ui-sref="unifiedinbox.tweetview({tweetId: $ctrl.item.id, type: 'twitter', account: $ctrl.account, context: ''})")
+.inbox-twitter-list-item(ng-if="$ctrl.item.type = 'tweet'", ui-sref="unifiedinbox.tweetview({tweetId: $ctrl.item.id, type: 'twitter', account: $ctrl.account, context: ''})")
   inbox-list-item-content(item="$ctrl.item")
-a.inbox-twitter-list-item(ng-if="$ctrl.item.type != 'tweet'")
+.inbox-twitter-list-item(ng-if="$ctrl.item.type != 'tweet'")
   inbox-list-item-content(item="$ctrl.item")

@@ -9,8 +9,12 @@
         .inbox-subject.lv-title
           .inbox-twitter-screenname.lv-title.hidden-xl(ng-bind-html="$ctrl.item.author.screenName | autolink")
           .inbox-preview-inline.lv-small.preview(ng-bind-html="$ctrl.item.text | autolink")
+        .flags-container
         .inbox-from.lv-title {{ $ctrl.item.author.displayName }}
           span.inbox-twitter-screenname.inbox-twitter-screenname-inline(ng-bind-html="$ctrl.item.author.screenName | autolink")
       .inbox-list-item-date-and-indicators
-        .date-container {{ $ctrl.item.date | inboxItemDate }}
+        .date-and-indicators-container
+          .indicators
+          .date-container
+            span {{ $ctrl.item.date | inboxItemDate }}
   .inbox-preview-block.preview(ng-bind-html="$ctrl.item.text | autolink")

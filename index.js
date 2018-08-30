@@ -30,7 +30,7 @@ const twitterModule = new AwesomeModule(MODULE_NAME, {
       const app = require('./backend/webserver/application')(dependencies);
       const lessFile = path.resolve(__dirname, './frontend/app/inbox.twitter.less');
       const configRegistry = dependencies('esn-config').registry;
-      const jsFile = './components/ngtweet/dist/ngtweet.min.js';
+      const jsFile = '../components/ngtweet/dist/ngtweet.min.js';
 
       let frontendModules = glob.sync([
         FRONTEND_JS_PATH + '**/!(*spec).js'

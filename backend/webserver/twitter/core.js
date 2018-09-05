@@ -9,14 +9,15 @@ module.exports = {
 /////
 
 function getMentions(config, options) {
-  return q.ninvoke(new Twitter(config), 'get', '/statuses/mentions_timeline', options).then(data => _formatTweets(data[0]));
+  return q.ninvoke(new Twitter(config), 'get', '/statuses/mentions_timeline', options).then(data => ({ messages: _formatTweets(data[0]) }));
 }
 
 function getDirectMessages(config, options) {
   const twitterClient = new Twitter(config);
 
   return q.ninvoke(twitterClient, 'get', '/direct_messages/events/list', options).then(data => {
-    const messages = _formatDirectMessages(data[0].events);
+    const listResult = data[0];
+    const messages = _formatDirectMessages(listResult.events);
     const userIds = new Set(messages.reduce((a, b) => ([...a, [b.author, b.rcpt]]), []));
 
     return _hydrateUsers(twitterClient, userIds).then(hydratedUsers => {
@@ -25,7 +26,7 @@ function getDirectMessages(config, options) {
         message.rcpt = hydratedUsers.get(message.rcpt);
       });
 
-      return messages;
+      return { messages, next_cursor: listResult.next_cursor };
     });
   });
 }

@@ -2,6 +2,7 @@
 
 /* global _: false */
 
+angular.module('esn.header', []);
 angular.module('linagora.esn.unifiedinbox', [])
   .constant('_', _)
   .constant('inboxPlugins', {

@@ -1,4 +1,4 @@
-.clickable.inbox-list-item-content
+.inbox-list-item-content(ng-class="{ 'clickable': $ctrl.item.type === 'tweet' }")
   .inbox-item-with-icon
     .list-image.badge-container
       .inbox-image-with-overlay

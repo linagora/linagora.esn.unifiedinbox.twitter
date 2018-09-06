@@ -6,6 +6,7 @@
       bindings: {
         item: '<'
       },
+      controller: 'inboxListTwitterItemContentController',
       templateUrl: '/unifiedinbox.twitter/app/components/list/inbox-list-item-content/inbox-list-item-content.html'
   });
 

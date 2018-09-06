@@ -17,7 +17,7 @@ function getDirectMessages(config, options) {
 
   return q.ninvoke(twitterClient, 'get', '/direct_messages/events/list', options).then(data => {
     const listResult = data[0];
-    const messages = _formatDirectMessages(listResult.events);
+    const messages = _formatDirectMessages(listResult.events, options);
     const userIds = new Set(messages.reduce((a, b) => ([...a, [b.author, b.rcpt]]), []));
 
     return _hydrateUsers(twitterClient, userIds).then(hydratedUsers => {
@@ -53,14 +53,17 @@ function _formatTweets(tweets) {
   }));
 }
 
-function _formatDirectMessages(direct_messages) {
+function _formatDirectMessages(direct_messages, options) {
   return direct_messages.map(direct_message => ({
     id: direct_message.id,
     author: direct_message.message_create.sender_id,
     rcpt: direct_message.message_create.target.recipient_id,
     date: new Date().setTime(direct_message.created_timestamp),
     text: direct_message.message_create.message_data.text,
-    type: 'directMessage'
+    type: 'directMessage',
+    sentbyme: options.account_id === direct_message.message_create.sender_id,
+    entities: direct_message.message_create.message_data.entities,
+    attachment: direct_message.message_create.message_data.attachments
   }));
 }
 

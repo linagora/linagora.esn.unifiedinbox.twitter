@@ -1,8 +1,9 @@
 mixin twitter-icons
   ul.actions.flex-vertical-centered
-    li
-      a(ng-click="$event.stopImmediatePropagation();" ng-href="{{::$ctrl.twitterURL}}", target="_blank", title=__("Show on twitter.com"))
-        i.flag-icon.mdi.mdi-twitter
+    li.twitter-actions
+      .show-on-twitter
+        a(ng-click="$event.stopImmediatePropagation();" ng-href="{{::$ctrl.twitterURL}}", target="_blank", title=__("Show on twitter.com"))
+          i.flag-icon.mdi.mdi-twitter
       i.flag-icon.mdi.mdi-at(ng-if="$ctrl.item.type === 'tweet'", title=__('Mention'))
       i.flag-icon.mdi.mdi-email-outline(ng-if="$ctrl.item.type === 'directMessage'", title=__('Direct Message'))
 

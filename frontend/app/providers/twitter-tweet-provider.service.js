@@ -10,26 +10,31 @@
           types: [PROVIDER_TYPES.SOCIAL, INBOX_TWITTER_TYPE],
           name: 'Tweets',
           fetch: function() {
-            var oldestTweetId = null,
-                fetcher = function(mostRecentTweetId) {
-                  return $http
-                    .get(url, {
-                      params: {
-                        account_id: accountId,
-                        count: ELEMENTS_PER_REQUEST * 2, // Because count may not be what you think -> https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline
-                        max_id: mostRecentTweetId ? null : oldestTweetId,
-                        since_id: mostRecentTweetId
-                      }
-                    })
-                    .then(_.property('data'))
-                    .then(function(results) {
-                      if (results.length > 0) {
-                        oldestTweetId = _.last(results).id;
-                      }
+            var oldestTweetId = null;
+            var cursor = null;
+            var fetcher = function(mostRecentTweetId) {
+              return $http
+                .get(url, {
+                  params: {
+                    account_id: accountId,
+                    count: ELEMENTS_PER_REQUEST * 2, // Because count may not be what you think -> https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline
+                    max_id: mostRecentTweetId ? null : oldestTweetId,
+                    since_id: mostRecentTweetId,
+                    cursor: cursor
+                  }
+                })
+                .then(_.property('data'))
+                .then(function(result) {
+                  if (result.next_cursor) {
+                    cursor = result.next_cursor;
+                  }
+                  if (result.messages && result.messages.length > 0) {
+                    oldestTweetId = _.last(result.messages).id;
+                  }
 
-                      return results;
-                    });
-                };
+                  return result.messages;
+                });
+            };
 
             fetcher.loadRecentItems = function(mostRecentTweet) {
               return fetcher(mostRecentTweet.id);

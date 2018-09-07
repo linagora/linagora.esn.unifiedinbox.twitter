@@ -17,7 +17,7 @@ function elements(id, length, offset) {
     });
   }
 
-  return array;
+  return { messages: array };
 }
 
 describe('The inboxNewTwitterProvider factory', function() {
@@ -49,12 +49,12 @@ describe('The inboxNewTwitterProvider factory', function() {
       fetcher();
       $httpBackend.flush();
 
-      $httpBackend.expectGET('/unifiedinbox/api/inbox/tweets?account_id=myTwitterAccount&count=400&max_id=tweet_199').respond(200, [{
+      $httpBackend.expectGET('/unifiedinbox/api/inbox/tweets?account_id=myTwitterAccount&count=400&max_id=tweet_199').respond(200, {messages: [{
         id: 'tweet_200'
-      }]);
+      }]});
 
-      fetcher().then(function(tweets) {
-        expect(tweets.length).to.equal(1);
+      fetcher().then(function(result) {
+        expect(result.length).to.equal(1);
 
         done();
       });
@@ -69,11 +69,11 @@ describe('The inboxNewTwitterProvider factory', function() {
       fetcher();
       $httpBackend.flush();
 
-      $httpBackend.expectGET('/unifiedinbox/api/inbox/tweets?account_id=myTwitterAccount&count=400&since_id=tweet_0').respond(200, [
+      $httpBackend.expectGET('/unifiedinbox/api/inbox/tweets?account_id=myTwitterAccount&count=400&since_id=tweet_0').respond(200, {messages: [
         {
           id: 'tweet_-1'
         }
-      ]);
+      ]});
 
       fetcher.loadRecentItems({ id: 'tweet_0' }).then(function(tweets) {
         expect(tweets.length).to.equal(1);

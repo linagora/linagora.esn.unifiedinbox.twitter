@@ -1,4 +1,13 @@
-.clickable.inbox-list-item-content
+mixin twitter-icons
+  ul.actions.flex-vertical-centered
+    li.twitter-actions
+      .show-on-twitter
+        a(ng-click="$event.stopImmediatePropagation();" ng-href="{{::$ctrl.twitterURL}}", target="_blank", title=__("Show on twitter.com"))
+          i.flag-icon.mdi.mdi-twitter
+      i.flag-icon.mdi.mdi-at(ng-if="$ctrl.item.type === 'tweet'", title=__('Mention'))
+      i.flag-icon.mdi.mdi-email-outline(ng-if="$ctrl.item.type === 'directMessage'", title=__('Direct Message'))
+
+.inbox-list-item-content.clickable
   .inbox-item-with-icon
     .list-image.badge-container
       .inbox-image-with-overlay
@@ -14,7 +23,11 @@
           span.inbox-twitter-screenname.inbox-twitter-screenname-inline(ng-bind-html="$ctrl.item.author.screenName | autolink")
       .inbox-list-item-date-and-indicators
         .date-and-indicators-container
-          .indicators
+          .indicators.esn-flex-noshrink.visible-xl
+            +twitter-icons
           .date-container
             span {{ $ctrl.item.date | inboxItemDate }}
+        .indicators.flex-end.esn-flex-noshrink.hidden-xl
+          +twitter-icons
+
   .inbox-preview-block.preview(ng-bind-html="$ctrl.item.text | autolink")

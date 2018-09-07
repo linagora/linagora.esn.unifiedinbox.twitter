@@ -86,7 +86,7 @@ describe.skip('The Twitter API', function() {
 
     it('should return 500 when the DM request is rejected', function(done) {
       twit.get = (endpoint, options, callback) => {
-        expect(endpoint).to.equal('/direct_messages');
+        expect(endpoint).to.equal('/direct_messages/events/list');
 
         callback(new Error('WTF'));
       };
@@ -114,23 +114,36 @@ describe.skip('The Twitter API', function() {
 
     it('should return 200 with transformed DM', function(done) {
       twit.get = (value, options, callback) => {
-        callback(null, [[{
-          created_at: 'Mon Aug 20 17:21:03 +0000 2012',
-          id_str: '420136858829479936',
-          sender: {
+        if (value === '/direct_messages/events/list') {
+          callback(null, [{events: [{
+            created_timestamp: new Date().getTime(),
+            id: '420136858829479936',
+            message_create: {
+              sender_id: 4242,
+              target: {
+                recipient_id: 38895958
+              },
+              message_data: {
+                text: 'Hey @me'
+              }
+            }
+          }]}]);
+        } else if (value === '/users/lookup') {
+          callback(null, [{
             id: 4242,
             name: 'Captain Crochet',
             profile_image_url_https: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
             screen_name: 'CallMeCaptain'
           },
-          recipient: {
+          {
             id: 38895958,
             name: 'Sean Cook',
             profile_image_url_https: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
             screen_name: 'theSeanCook'
-          },
-          text: 'Hey @me'
-        }]]);
+          }]);
+        } else {
+          callback(new Error('Should not be called'));
+        }
       };
 
       helpers.requireBackend('core/esn-config')('oauth').store({ twitter: true }, this.helpers.callbacks.noErrorAnd(() => {
@@ -139,7 +152,7 @@ describe.skip('The Twitter API', function() {
           .auth('user1@lng.net', 'secret')
           .expect(200)
           .then(res => {
-            expect(JSON.parse(res.text)).to.deep.equal([{
+            expect(JSON.parse(res.text)).to.shallowDeepEqual([{
               author: {
                 avatar: 'https://si0.twimg.com/profile_images/1751506047/dead_sexy_normal.JPG',
                 displayName: 'Captain Crochet',
@@ -152,7 +165,6 @@ describe.skip('The Twitter API', function() {
                 id: 38895958,
                 screenName: '@theSeanCook'
               },
-              date: '2012-08-20T17:21:03.000Z',
               id: '420136858829479936',
               text: 'Hey @me',
               type: 'directMessage'

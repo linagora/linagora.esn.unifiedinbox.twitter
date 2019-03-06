@@ -1,0 +1,6 @@
+.card(ng-if="$ctrl.isTwitterdisplayed")
+  .card-header
+    h2
+      i.mdi.mdi-twitter
+      | #{__('Twitter')}
+    toggle-switch(ng-model="$ctrl.isTwitterEnabled", onchange="$ctrl.onSave()")

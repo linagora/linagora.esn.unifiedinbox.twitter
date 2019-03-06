@@ -46,19 +46,6 @@ describe('The inboxTwitterSidebarMenuController controller', function() {
   }
 
   describe('The $onInit function', function() {
-    it('should not set accounts if twitter.tweets is not enabled', function() {
-      var controller = getNewController();
-
-      session.getProviderAccounts = sinon.spy();
-      enabled = false;
-
-      controller.$onInit();
-      $rootScope.$digest();
-
-      expect(controller.accounts).to.deep.equal([]);
-      expect(session.getProviderAccounts).to.not.have.been.called;
-      expect(inboxConfig).to.have.been.calledWith(INBOX_TWITTER_CONFIG_TWEETS);
-    });
 
     it('should set accounts from session', function() {
       var accounts = [{id: '1'}, {id: '2'}];

@@ -12,7 +12,8 @@
       },
       getEmptyContextTemplateUrl: _.constant($q.when('/unifiedinbox.twitter/app/services/plugin/twitter-plugin-empty-message.html'))
     });
-        inboxFilters.add([{
+    inboxFilters.add([
+      {
         id: 'inboxTwitterMentions',
         displayName: 'Mentions',
         type: INBOX_TWITTER_TYPE,

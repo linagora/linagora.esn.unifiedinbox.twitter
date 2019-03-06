@@ -8,4 +8,5 @@ angular.module('linagora.esn.unifiedinbox', [])
   .constant('inboxPlugins', {
     add: angular.noop
   })
-  .constant('inboxFilters', { add: angular.noop });
+  .constant('inboxFilters', { add: angular.noop })
+  .constant('INBOX_EVENTS', {FILTER_SOCIAL_CHANGED: 'inbox:filterSocialChanged'});

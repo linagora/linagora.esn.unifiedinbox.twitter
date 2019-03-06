@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('linagora.esn.unifiedinbox.twitter')
-    .run(function($q, inboxConfig, inboxProviders, inboxTwitterDirectMessagesProvider, inboxTwitterMentionsProvider, session, INBOX_TWITTER_CONFIG_TWEETS, INBOX_TWITTER_TYPE) {
+    .run(function(inboxConfig, inboxProviders, inboxTwitterDirectMessagesProvider, inboxTwitterMentionsProvider, session, INBOX_TWITTER_CONFIG_TWEETS, INBOX_TWITTER_TYPE) {
 
       inboxConfig(INBOX_TWITTER_CONFIG_TWEETS).then(function(twitterTweetsEnabled) {
         if (twitterTweetsEnabled) {

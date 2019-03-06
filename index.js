@@ -29,7 +29,6 @@ const twitterModule = new AwesomeModule(MODULE_NAME, {
       const webserverWrapper = dependencies('webserver-wrapper');
       const app = require('./backend/webserver/application')(dependencies);
       const lessFile = path.resolve(__dirname, './frontend/app/inbox.twitter.less');
-      const configRegistry = dependencies('esn-config').registry;
       const jsFile = '../components/ngtweet/dist/ngtweet.min.js';
 
       let frontendModules = glob.sync([
@@ -43,7 +42,8 @@ const twitterModule = new AwesomeModule(MODULE_NAME, {
       webserverWrapper.injectAngularAppModules(NAME, frontendModules, MODULE_NAME, ['esn']);
       webserverWrapper.injectLess(NAME, [lessFile], 'esn');
       webserverWrapper.addApp(NAME, app);
-      configRegistry.registerToModule('linagora.esn.unifiedinbox', 'twitter.tweets', {});
+
+      require('./backend/lib/config')(dependencies).register();
 
       callback();
     }

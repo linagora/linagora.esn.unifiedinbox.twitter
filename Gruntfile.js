@@ -127,20 +127,25 @@ module.exports = function(grunt) {
 
   grunt.loadTasks('tasks');
 
-  grunt.registerTask('i18n', 'Check the translation files', ['i18n_checker']);
-  grunt.registerTask('pug-linter', 'Check the pug/jade files', ['puglint:all']);
-  grunt.registerTask('linters', 'Check code for lint', ['eslint:all', 'lint_pattern:all', 'i18n', 'pug-linter']);
-  grunt.registerTask('linters-dev', 'Check changed files for lint', ['prepare-quick-lint', 'jshint:quick', 'jscs:quick', 'lint_pattern:quick']);
+  grunt.registerTask('setup-environment', 'create temp folders and files for tests', gruntfileUtils.setupEnvironment());
+  grunt.registerTask('clean-environment', 'remove temp folder for tests', gruntfileUtils.cleanEnvironment());
+  grunt.registerTask('setup-servers', ['spawn-servers', 'continue:on']);
   grunt.registerTask('spawn-servers', 'spawn servers', ['shell:mongo', 'shell:redis', 'shell:elasticsearch']);
   grunt.registerTask('kill-servers', 'kill servers', ['shell:mongo:kill', 'shell:redis:kill', 'shell:elasticsearch:kill']);
-  grunt.registerTask('setup-environment', 'create temp folders and files for tests', gruntfileUtils.setupEnvironment());
-  grunt.registerTask('setupElasticsearchIndex', 'setup elasticsearch index', gruntfileUtils.setupElasticsearchIndex());
-  grunt.registerTask('clean-environment', 'remove temp folder for tests', gruntfileUtils.cleanEnvironment());
-  grunt.registerTask('setup-servers', ['spawn-servers', 'continue:on', 'setupElasticsearchIndex']);
+
   grunt.registerTask('test-midway-backend', ['setup-environment', 'setup-servers', 'run_grunt:midway_backend', 'kill-servers', 'clean-environment']);
+  grunt.registerTask('gitlab-test-midway-backend', ['setup-environment', 'run_grunt:midway_backend', 'clean-environment']);
+
   grunt.registerTask('test-unit-backend', 'Test backend code', ['mochacli:backend']);
   grunt.registerTask('test-unit-frontend', 'Unit test frontend code', ['karma:unit']);
+
   grunt.registerTask('test-frontend', 'Test frontend code', ['test-unit-frontend']);
+
   grunt.registerTask('test', ['linters', 'test-frontend', 'test-unit-backend', 'test-midway-backend']);
+
+  grunt.registerTask('i18n', 'Check the translation files', ['i18n_checker']);
+  grunt.registerTask('linters', 'Check code for lint', ['eslint:all', 'lint_pattern:all', 'i18n', 'pug-linter']);
+  grunt.registerTask('linters-dev', 'Check changed files for lint', ['prepare-quick-lint', 'jshint:quick', 'jscs:quick', 'lint_pattern:quick']);
+  grunt.registerTask('pug-linter', 'Check the pug/jade files', ['puglint:all']);
   grunt.registerTask('default', ['test']);
 };

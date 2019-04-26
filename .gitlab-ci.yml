@@ -1,26 +1,115 @@
-before_script:
-  - . ~/.nvm/nvm.sh && nvm use 6
-
 stages:
+  - prepare
+  - linters
   - test
-  - deploy_dev
+  - deploy
 
-test:
+.cache-tpl: &cache-tpl
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - node_modules
+    - frontend/components
+  policy: pull
+
+.test-template: &test-template
+  image: node:8.15.0-stretch
   stage: test
   tags:
-    - shell
-    - online.net
-    - mongo
-    - elasticsearch
-    - redis
-  script:
-   - npm i
-   - bower i
-   - ln -s ${PWD}/node_modules/linagora.esn.unifiedinbox node_modules/linagora-rse/node_modules/
-   - grunt
+    - docker
+  cache:
+    <<: *cache-tpl
+  variables:
+      TZ: "America/New_York"
+  before_script:
+    - npm install -g grunt-cli
+    - 'echo "INFO: NB node packages : $(ls node_modules | wc -l)"'
+    - 'echo "INFO: NB bower packages : $(ls frontend/components | wc -l)"'
+  except:
+    variables:
+      - $SKIP_TESTS
+    refs:
+      - tags@linagora/lgs/openpaas/linagora.esn.unifiedinbox.twitter
 
-deploy_dev:
-  stage: deploy_dev
+.test-template-svc: &test-template-svc
+  <<: *test-template
+  services:
+    - name: elasticsearch:2.3.2
+      alias: elasticsearch
+    - name: mongo:3.4
+      alias: mongo
+    - name: redis:latest
+      alias: redis
+  variables:
+    MONGO_HOST: mongo
+    MONGO_PORT: 27017
+    ELASTICSEARCH_HOST : elasticsearch
+    ELASTICSEARCH_PORT: 9200
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+
+prepare:
+  image: node:8.15.0-stretch
+  stage: prepare
+  tags:
+    - docker
+  cache:
+    <<: *cache-tpl
+    policy: pull-push
+  script:
+    - npm install
+    - ./node_modules/.bin/bower install --allow-root
+    - 'echo "INFO: NB node packages : $(ls node_modules | wc -l)"'
+    - 'echo "INFO: NB bower packages : $(ls frontend/components | wc -l)"'
+  except:
+    variables:
+      - $SKIP_PREPARE
+
+linters:
+  <<: *test-template
+  stage: linters
+  script:
+    - grunt -v linters
+  except:
+    variables:
+      - $SKIP_LINTERS
+    refs:
+      - tags@linagora/lgs/openpaas/linagora.esn.unifiedinbox.twitter
+
+check_author:
+  image: docker-registry.linagora.com:5000/lgs-releases/gitlab-integrity-checks:latest
+  stage: linters
+  variables:
+    GIT_DEPTH: "1"
+  tags:
+    - docker-medium
+    - check-author
+  script:
+    - check_author.py check "$GITLAB_USER_EMAIL" "$GITLAB_USER_NAME" --no-accents
+  except:
+    refs:
+      - master@linagora/lgs/openpaas/linagora.esn.unifiedinbox.twitter
+      - tags@linagora/lgs/openpaas/linagora.esn.unifiedinbox.twitter
+      - /^release-.*/@linagora/lgs/openpaas/linagora.esn.unifiedinbox.twitter
+
+####### tests without services requirements
+frontend-test:
+  <<: *test-template
+  script:
+    - grunt -v test-frontend
+
+unit-backend-test:
+  <<: *test-template
+  script:
+    - grunt -v --chunk=1 test-unit-backend
+
+####### tests with services requirements
+midway-backend-test:
+  <<: *test-template-svc
+  script:
+    - grunt --chunk=1 -v gitlab-test-midway-backend
+
+deploy:
+  stage: deploy
   tags:
     - dev.open-paas.org
     - deployment
@@ -28,14 +117,15 @@ deploy_dev:
     name: dev
     url: https://dev.open-paas.org
   only:
-    - master
+    - master@linagora/lgs/openpaas/linagora.esn.unifiedinbox.twitter
   script:
     - cd /srv/${CI_PROJECT_NAME}
     - git fetch --all
     - git checkout ${CI_COMMIT_SHA}
     - npm install --ignore-scripts --production
+    - npm update --production
     - npm prune
     - bower install --production
     - bower prune
-    - sudo /etc/init.d/rse.dev stop
-    - sudo /etc/init.d/rse.dev start
+    - git checkout -- .
+    - sudo /etc/init.d/rse.dev restart

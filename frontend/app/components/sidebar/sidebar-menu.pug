@@ -1,4 +1,4 @@
 .listview
   .lv-body
-    div(ng-if="$ctrl.accounts.length > 0")
+    div(ng-if="$ctrl.isEnabled")
       inbox-twitter-sidebar-menu-item(account="account", ng-repeat="account in $ctrl.accounts")

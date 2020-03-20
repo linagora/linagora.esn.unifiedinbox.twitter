@@ -1,13 +1,9 @@
-'use strict';
-
 const AwesomeModule = require('awesome-module');
 const Dependency = AwesomeModule.AwesomeModuleDependency;
 const path = require('path');
 const glob = require('glob-all');
-const _ = require('lodash');
 
 const NAME = 'unifiedinbox.twitter';
-const APP_ENTRY_POINT = 'inbox.twitter.app.js';
 const MODULE_NAME = 'linagora.esn.' + NAME;
 const FRONTEND_JS_PATH = __dirname + '/frontend/app/';
 
@@ -28,18 +24,22 @@ const twitterModule = new AwesomeModule(MODULE_NAME, {
     deploy: function(dependencies, callback) {
       const webserverWrapper = dependencies('webserver-wrapper');
       const app = require('./backend/webserver/application')(dependencies);
-      const lessFile = path.resolve(__dirname, './frontend/app/inbox.twitter.less');
+      const lessFile = path.resolve(__dirname, './frontend/app/app.less');
       const jsFile = '../components/ngtweet/dist/ngtweet.min.js';
 
-      let frontendModules = glob.sync([
+      const frontendJsFilesFullPath = glob.sync([
+        FRONTEND_JS_PATH + '**/*.module.js',
         FRONTEND_JS_PATH + '**/!(*spec).js'
-      ]).map(filepath => filepath.replace(FRONTEND_JS_PATH, ''));
+      ]);
 
-      _.pull(frontendModules, APP_ENTRY_POINT);
-      frontendModules = [APP_ENTRY_POINT].concat(frontendModules);
+      const frontendJsFilesUri = frontendJsFilesFullPath.map(function(filepath) {
+        return filepath.replace(FRONTEND_JS_PATH, '');
+      });
 
       webserverWrapper.injectJS(NAME, jsFile, ['esn']);
-      webserverWrapper.injectAngularAppModules(NAME, frontendModules, MODULE_NAME, ['esn']);
+      webserverWrapper.injectAngularAppModules(NAME, frontendJsFilesUri, [MODULE_NAME], ['esn'], {
+        localJsFiles: frontendJsFilesFullPath
+      });
       webserverWrapper.injectLess(NAME, [lessFile], 'esn');
       webserverWrapper.addApp(NAME, app);
 

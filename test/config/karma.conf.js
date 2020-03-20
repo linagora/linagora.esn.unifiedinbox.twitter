@@ -23,19 +23,19 @@ module.exports = function(config) {
       'frontend/components/angular-sanitize/angular-sanitize.min.js',
       'frontend/components/ngtweet/dist/ngtweet.min.js',
       'test/config/module.js',
-      'frontend/app/inbox.twitter.app.js',
       'frontend/components/angular-feature-flags/dist/featureFlags.js',
       'node_modules/linagora-rse/test/fixtures/code-generation/constants.js',
       'node_modules/linagora-rse/frontend/js/modules/**/*.module.js',
       'node_modules/linagora-rse/frontend/js/modules/**/*.js',
       'node_modules/linagora-rse/frontend/views/modules/**/*.pug',
+      'frontend/app/**/*.module.js',
       'frontend/app/**/*.js',
       'frontend/app/**/*.pug',
       'test/mocks/modules.js'
     ],
     exclude: [
-      'frontend/app/inbox.twitter.run.js',
-      'frontend/app/inbox.twitter.router.js',
+      'frontend/app/app.run.js',
+      'frontend/app/app.router.js',
       'node_modules/linagora-rse/frontend/js/**/*.spec.js'
     ],
     frameworks: ['mocha'],

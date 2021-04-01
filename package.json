@@ -1,6 +1,6 @@
 {
   "name": "linagora.esn.unifiedinbox.twitter",
-  "version": "1.9.0-dev",
+  "version": "1.9.0-rc8",
   "description": "OpenPaaS Twitter Module for Unified Inbox",
   "main": "index.js",
   "devDependencies": {
